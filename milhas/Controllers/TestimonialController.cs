@@ -41,21 +41,24 @@ public class TestimonialController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IEnumerable<TestimonialRS>> Get()
     {
         var testimonials = await _testimonialRepository.GetAllAsync();
-        return Ok(testimonials);
+        
+        return testimonials.Select(t => new TestimonialRS
+        {
+            Id = t.Id,
+            Name = t.Name,
+            Testimony = t.Testimony,
+            ImagePath = t.ImagePath,
+        });
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<TestimonialRS> GetById(int id)
     {
         var testimonial = await _testimonialRepository.GetByIdAsync(id);
-        if (testimonial == null)
-        {
-            return NotFound();
-        }
-        return Ok(testimonial);
+        return new TestimonialRS { Id = testimonial.Id, Name = testimonial.Name, Testimony = testimonial.Testimony, ImagePath = testimonial.ImagePath };
     }
 
     [HttpPut("{id}")]
@@ -78,5 +81,20 @@ public class TestimonialController : ControllerBase
     {
         await _testimonialRepository.DeleteAsync(id);
         return Ok();
+    }
+
+    [HttpGet("depoimentos-home")]
+    public async Task<IEnumerable<TestimonialRS>> GetRandomTestimonials()
+    {
+        var testimonials = await _testimonialRepository.GetAllAsync();
+        var randomTestimonials = testimonials.OrderBy(x => Guid.NewGuid()).Take(3);
+
+        return randomTestimonials.Select(t => new TestimonialRS
+        {
+            Id = t.Id,
+            Name = t.Name,
+            Testimony = t.Testimony,
+            ImagePath = t.ImagePath,
+        });
     }
 }
