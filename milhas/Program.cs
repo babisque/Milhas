@@ -28,11 +28,13 @@ builder.Services.AddScoped<ITestimonialRepository, TestimonialRepository>();
 
 var app = builder.Build();
 
+/*
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+*/
 
 app.UseHttpsRedirection();
 app.UseRouting();

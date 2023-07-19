@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Milhas.API.Envelopes;
 using Milhas.Domain.Testimonial;
 
 namespace Milhas.API.Controllers;
 
+[EnableCors("AllowAllOrigins")]
 [ApiController]
 [Route("api/[controller]")]
 public class TestimonialController : ControllerBase
